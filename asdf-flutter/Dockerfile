@@ -9,6 +9,7 @@ USER root
 
 # Create a new user
 RUN useradd -ms /bin/bash user
+RUN chown -R user:user /opt/android-sdk
 
 # Switch to the new user
 USER user
