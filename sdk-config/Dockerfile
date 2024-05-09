@@ -9,19 +9,16 @@ USER root
 
 # Set environment variables
 ENV ANDROID_HOME=/opt/android-sdk
-ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-19-openjdk-amd64
 ENV PATH="$JAVA_HOME/bin:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
 
-# Set environment variables for build tools and NDK
-ENV ANDROID_PLATFORM_VERSION 34
-ENV ANDROID_BUILD_TOOLS_VERSION 34.0.0
 # ENV ANDROID_NDK_VERSION 26.2.11394342
 
 # Install necessary packages
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y curl git unzip xz-utils zip libglu1-mesa \
     && apt-get install -y jq \
-    && apt-get install -y openjdk-21-jdk \
+    && apt-get install -y openjdk-19-jdk \
     && apt-get install -y apt-utils locales wget software-properties-common build-essential automake autoconf libreadline-dev libncurses-dev libssl-dev libyaml-dev libxslt-dev libffi-dev libtool unixodbc-dev libsqlite3-dev sqlite3 openssh-client --no-install-recommends \
     && apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev \
     && dpkg --add-architecture i386 \
@@ -41,10 +38,7 @@ RUN apt-get update -y && apt-get upgrade -y \
     # Accept licenses
     && yes | sdkmanager --licenses \
     # Install SDK Platforms and Platform Tools
-    && yes | sdkmanager \ 
-    "platforms;android-$ANDROID_PLATFORM_VERSION" \
-    "build-tools;$ANDROID_BUILD_TOOLS_VERSION" \
-    # "ndk;$ANDROID_NDK_VERSION" \
-    "platform-tools"
+    && yes | sdkmanager "platform-tools" \
+    && for version in 30 31 32 33 34; do sdkmanager "platforms;android-${version}" "build-tools;${version}.0.0"; done
 
 WORKDIR /home
