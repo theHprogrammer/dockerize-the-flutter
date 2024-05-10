@@ -1,4 +1,4 @@
-# Dockernize-the-Flutter
+# Dockerize-the-Flutter
 
 Este projeto visa fornecer um ambiente Dockerizado completo para o desenvolvimento de aplicações com o Flutter, facilitando a configuração e padronizando o ambiente de desenvolvimento para todos os contribuidores.
 
